@@ -2,7 +2,7 @@
 
 var jeapieVersion = "0.2.0";
 var hostUrl = 'https://go.jeapie.com';
-var app_key = 'AIzaSyCmnZkSpULtahV89F8C5S-2r8Krh1eQDHE';
+var app_key = 'gravitecAppKey3';
 var pushId;
 var deviceId;
 var redirectUrl = '/';
