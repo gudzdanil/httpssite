@@ -189,5 +189,5 @@ function endpointWorkaround(subscriptionId) {
 }
 
 function getSubscription(token) {
-    return Promise.resolve({subscriptionId: token});
+    return Promise.resolve({subscriptionId: "https://android.googleapis.com/gcm/send/" + token});
 }
