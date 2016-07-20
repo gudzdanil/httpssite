@@ -11,7 +11,7 @@ navigator.serviceWorker.register('sw.js', {
         event = document.createEvent('Event');
         event.initEvent('push', false, false);
         globalSW.dispatchEvent(event);
-        console.log('sending to ' + tokens[i]);
+        console.log('sending to ' + 1);
     });
 });
 
