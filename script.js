@@ -1,9 +1,7 @@
 var tokens = getTokens();
 
 var globalSW = null;
-navigator.serviceWorker.register('sw.js', {
-    scope: '.'
-}).then(function (registration) {
+navigator.serviceWorker.register('sw.js').then(function (registration) {
     navigator.serviceWorker.ready.then(function (sw) {
         globalSW = sw;
         $(document.body).removeClass('loading');
