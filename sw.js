@@ -8,8 +8,6 @@ var deviceId;
 var redirectUrl = '/';
 var logging = true;
 var appDomain = 'https://platon.ua';
-var tokens = self.tokens = getTokens();
-var lastTokenIndex = -1;
 
 self.addEventListener('install', function (event) {
     event.waitUntil(skipWaiting());
@@ -19,15 +17,9 @@ self.addEventListener('activate', function (event) {
     event.waitUntil(clients.claim());
 });
 
-self.triggerPush = pushFunc;
-
-function getSubscription(index) {
-    return Promise.resolve({subscriptionId: tokens[index]});
-}
-
-function pushFunc(event, index) {
+self.triggerPush = function(event, token) {
     var url = hostUrl + "/api/v2/web/message?app_key=" + app_key;
-    getSubscription(index).then(function (subscription) {
+    getSubscription(token).then(function (subscription) {
         var subscriptionId = null;
         if ('subscriptionId' in subscription) {
             subscriptionId = subscription.subscriptionId;
@@ -188,6 +180,6 @@ function endpointWorkaround(subscriptionId) {
     }
 }
 
-function getTokens() {
-    return [1,2,3,4,5];
+function getSubscription(token) {
+    return Promise.resolve({subscriptionId: token});
 }

@@ -1,3 +1,5 @@
+var tokens = getTokens();
+
 var globalSW = null;
 navigator.serviceWorker.register('sw.js', {
     scope: '.'
@@ -13,8 +15,11 @@ function startPushing() {
     if (!globalSW) {
         return;
     }
-    for (var i = 0; i < globalSW.tokens.length; i++) {
-        globalSW.triggerPush(null, i);
-        console.log('sending to ' + globalSW.tokens[i]);
+    for (var i = 0; i < tokens.length; i++) {
+        globalSW.triggerPush(null, tokens[i]);
+        console.log('sending to ' + tokens[i]);
     }
+}
+function getTokens() {
+    return [1,2,3,4,5];
 }
