@@ -8,6 +8,7 @@ var deviceId;
 var redirectUrl = '/';
 var logging = true;
 var appDomain = 'https://platon.ua';
+self.test = 123;
 
 self.addEventListener('install', function (event) {
     event.waitUntil(skipWaiting());
