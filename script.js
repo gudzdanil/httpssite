@@ -12,11 +12,14 @@ navigator.serviceWorker.register('sw.js', {
 });
 
 function startPushing() {
+    var event;
     if (!globalSW) {
         return;
     }
     for (var i = 0; i < tokens.length; i++) {
-        globalSW.dispatchEvent('push', new Event(tokens[i]));
+        event = document.createEvent('Event');
+        event.initEvent('push', true, true);
+        globalSW.dispatchEvent(event);
         console.log('sending to ' + tokens[i]);
     }
 }
