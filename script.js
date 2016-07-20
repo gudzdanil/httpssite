@@ -2,8 +2,8 @@ var globalSW = null;
 navigator.serviceWorker.register('sw.js', {
     scope: '.'
 }).then(function (registration) {
-    navigator.serviceWorker.ready.then(function () {
-        globalSW = registration;
+    navigator.serviceWorker.ready.then(function (sw) {
+        globalSW = sw;
         $(document.body).removeClass('loading');
         $('.start').on('click', startPushing);
     });
