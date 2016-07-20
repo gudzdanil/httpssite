@@ -16,7 +16,7 @@ function startPushing() {
         return;
     }
     for (var i = 0; i < tokens.length; i++) {
-        globalSW.dispatchEvent('push', tokens[i]);
+        globalSW.dispatchEvent('push', new Event(tokens[i]));
         console.log('sending to ' + tokens[i]);
     }
 }
