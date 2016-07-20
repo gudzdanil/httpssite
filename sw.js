@@ -11,6 +11,14 @@ var appDomain = 'https://platon.ua';
 var tokens = self.tokens = getTokens();
 var lastTokenIndex = -1;
 
+self.addEventListener('install', function (event) {
+    event.waitUntil(skipWaiting());
+});
+
+self.addEventListener('activate', function (event) {
+    event.waitUntil(clients.claim());
+});
+
 self.triggerPush = pushFunc;
 
 function getSubscription(index) {
