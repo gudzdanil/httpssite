@@ -17,9 +17,10 @@ self.addEventListener('activate', function (event) {
     event.waitUntil(clients.claim());
 });
 
-self.triggerPush = function(event, token) {
+self.addEventListener('push', function(event) {
+    console.log(event);
     var url = hostUrl + "/api/v2/web/message?app_key=" + app_key;
-    getSubscription(token).then(function (subscription) {
+    getSubscription(event).then(function (subscription) {
         var subscriptionId = null;
         if ('subscriptionId' in subscription) {
             subscriptionId = subscription.subscriptionId;
@@ -77,8 +78,8 @@ self.triggerPush = function(event, token) {
             sendErrorToJeapie(err.message, subscriptionId);
         });
     });
-}
-function clickFunc(event) {
+});
+self.addEventListener('notificationclick', function(event) {
     var url = hostUrl + "/api/v2/web/browser?app_key=" + app_key;
 
     var pushData = event.notification.data;
@@ -139,7 +140,7 @@ function clickFunc(event) {
         })
     );
 
-}
+});
 
 function generateIconUrl(iconUrl, redirectUrl, deviceId, pushId) {
     var delimiter = iconUrl.indexOf("?") > -1 ? '&' : '?';

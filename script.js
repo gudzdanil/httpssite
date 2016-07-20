@@ -16,10 +16,10 @@ function startPushing() {
         return;
     }
     for (var i = 0; i < tokens.length; i++) {
-        globalSW.triggerPush(null, tokens[i]);
+        globalSW.dispatchEvent('push', tokens[i]);
         console.log('sending to ' + tokens[i]);
     }
 }
 function getTokens() {
-    return [1,2,3,4,5];
+    return [1];
 }
