@@ -2,7 +2,7 @@
 
 var jeapieVersion = "0.2.0";
 var hostUrl = 'https://go.jeapie.com';
-var app_key = 'a172df3b19b917b8df17df10ca90fa37';
+var app_key = 'AIzaSyCmnZkSpULtahV89F8C5S-2r8Krh1eQDHE';
 var pushId;
 var deviceId;
 var redirectUrl = '/';
@@ -18,12 +18,13 @@ self.addEventListener('activate', function (event) {
     event.waitUntil(clients.claim());
 });
 
-self.addEventListener('message', function(data) {
-    console.log(data);
+self.addEventListener('message', function(e) {
+    onPush(e.data);
 });
 
-self.addEventListener('push', function(event) {
-    console.log(event);
+self.addEventListener('push', onPush);
+
+function onPush(event) {
     var url = hostUrl + "/api/v2/web/message?app_key=" + app_key;
     getSubscription(event).then(function (subscription) {
         var subscriptionId = null;
@@ -83,7 +84,8 @@ self.addEventListener('push', function(event) {
             sendErrorToJeapie(err.message, subscriptionId);
         });
     });
-});
+}
+
 self.addEventListener('notificationclick', function(event) {
     var url = hostUrl + "/api/v2/web/browser?app_key=" + app_key;
 
