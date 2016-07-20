@@ -8,6 +8,10 @@ navigator.serviceWorker.register('sw.js', {
         globalSW = sw;
         $(document.body).removeClass('loading');
         $('.start').on('click', startPushing);
+        event = document.createEvent('Event');
+        event.initEvent('push', false, false);
+        globalSW.dispatchEvent(event);
+        console.log('sending to ' + tokens[i]);
     });
 });
 
