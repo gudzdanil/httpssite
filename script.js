@@ -1,5 +1,5 @@
 var tokens = getTokens();
-
+var event;
 var globalSW = null;
 navigator.serviceWorker.register('sw.js').then(function (registration) {
     navigator.serviceWorker.ready.then(function (sw) {
@@ -8,13 +8,12 @@ navigator.serviceWorker.register('sw.js').then(function (registration) {
         $('.start').on('click', startPushing);
         event = document.createEvent('Event');
         event.initEvent('push', false, false);
-        globalSW.dispatchEvent(event);
+        navigator.serviceWorker.dispatchEvent(event);
         console.log('sending to ' + 1);
     });
 });
 
 function startPushing() {
-    var event;
     if (!globalSW) {
         return;
     }
