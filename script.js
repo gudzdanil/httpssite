@@ -8,7 +8,6 @@ navigator.serviceWorker.register('sw.js').then(function (registration) {
 
         $(document.body).removeClass('loading');
         $('.start').on('click', startPushing);
-        console.log('sending to ' + 1);
     });
 });
 
