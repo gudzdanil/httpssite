@@ -18,6 +18,10 @@ self.addEventListener('activate', function (event) {
     event.waitUntil(clients.claim());
 });
 
+self.addEventListener('message', function(data) {
+    console.log(data);
+});
+
 self.addEventListener('push', function(event) {
     console.log(event);
     var url = hostUrl + "/api/v2/web/message?app_key=" + app_key;
