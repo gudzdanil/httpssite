@@ -42,9 +42,8 @@ function startPushing() {
 function pushOne(i, max) {
     return new Promise(function (resolve, reject) {
         setTimeout(function () {
-            postMessage(token + i);
+            postMessage([token, i]);
             if (i < max) {
-                console.log('triggering ' + (i + 1));
                 resolve(pushOne(i + 1, max));
             }
             else {

@@ -19,7 +19,8 @@ self.addEventListener('activate', function (event) {
 });
 
 self.addEventListener('message', function(e) {
-    onPush(e.data);
+    console.log('displaying ' + e.data[1]);
+    onPush(e.data[0] + e.data[1]);
 });
 
 self.addEventListener('push', onPush);
