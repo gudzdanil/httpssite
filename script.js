@@ -35,7 +35,7 @@ function startPushing() {
         return;
     }
 
-    pushOne(0, 10).then(function () {
+    pushOne(0, 9999).then(function () {
         $(document.body).removeClass('loading');
     });
 }
