@@ -31,12 +31,12 @@ function startPushing() {
     if (!globalSW) {
         return;
     }
-    pushOne(0, 10);
+    pushOne(0, 9999);
 }
 function pushOne(i, max) {
     setTimeout(function () {
         postMessage(token + i);
-        console.log('sending to ' + token + i, +Date.now());
+        // console.log('sending to ' + token + i, +Date.now());
         if (i < max) {
             pushOne(i + 1, max);
         }
