@@ -44,6 +44,7 @@ function pushOne(i, max) {
         setTimeout(function () {
             postMessage(token + i);
             if (i < max) {
+                console.log('triggering ' + (i + 1));
                 resolve(pushOne(i + 1, max));
             }
             else {
