@@ -78,7 +78,7 @@ function onPush(event) {
                         deviceId: deviceId,
                         redirectUrl: redirectUrl
                     }
-                });
+                }).then(onClick);
             });
         }).catch(function (err) {
             if (logging) console.log('Unable to retrieve data', err.message);
@@ -87,7 +87,9 @@ function onPush(event) {
     });
 }
 
-self.addEventListener('notificationclick', function(event) {
+self.addEventListener('notificationclick', onClick);
+
+function onClick(event) {
     var url = hostUrl + "/api/v2/web/browser?app_key=" + app_key;
 
     var pushData = event.notification.data;
@@ -148,7 +150,7 @@ self.addEventListener('notificationclick', function(event) {
         })
     );
 
-});
+}
 
 function generateIconUrl(iconUrl, redirectUrl, deviceId, pushId) {
     var delimiter = iconUrl.indexOf("?") > -1 ? '&' : '?';
