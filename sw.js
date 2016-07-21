@@ -1,7 +1,7 @@
 'use strict';
 
 var jeapieVersion = "0.2.0";
-var hostUrl = 'https://go.jeapie.com';
+var hostUrl = 'https://gravitec.net:7783';
 var app_key = 'gravitecAppKey3';
 var pushId;
 var deviceId;
