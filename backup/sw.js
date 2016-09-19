@@ -131,7 +131,7 @@ function onClick(event) {
 
     event.notification.close();
 
-    event.waitUntil(
+    return event.waitUntil(
         clients.matchAll({
             type: "window"
         }).then(function (clientList) {

@@ -1,0 +1,626 @@
+[
+  {
+    "id": 1,
+    "name": "Akademmistechko",
+    "coord": {
+      "lat": 50.465944,
+      "lng": 30.355208
+    },
+    "connections": [
+      2
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Zhytomyrska",
+    "coord": {
+      "lat": 50.4560768,
+      "lng": 30.3649982
+    },
+    "connections": [
+      1,
+      3
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Sviatoshyn",
+    "coord": {
+      "lat": 50.457771,
+      "lng": 30.390585
+    },
+    "connections": [
+      2,
+      4
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Nyvky",
+    "coord": {
+      "lat": 50.458631,
+      "lng": 30.40391499999999
+    },
+    "connections": [
+      3,
+      5
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Beresteiska",
+    "coord": {
+      "lat": 50.4593,
+      "lng": 30.4190
+    },
+    "connections": [
+      4,
+      6
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Shuliavska",
+    "coord": {
+      "lat": 50.454489,
+      "lng": 30.447239
+    },
+    "connections": [
+      5,
+      7
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Politekhnichnyi instytut",
+    "coord": {
+      "lat": 50.450953,
+      "lng": 30.465144
+    },
+    "connections": [
+      6,
+      8
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Vokzalna",
+    "coord": {
+      "lat": 50.44139,
+      "lng": 30.489041
+    },
+    "connections": [
+      7,
+      9
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Universytet",
+    "coord": {
+      "lat": 50.442925,
+      "lng": 30.503718
+    },
+    "connections": [
+      8,
+      10
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Teatralna",
+    "coord": {
+      "lat": 50.444851,
+      "lng": 30.516073
+    },
+    "connections": [
+      9,
+      11,
+      40
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Khreshchatyk",
+    "coord": {
+      "lat": 50.447056,
+      "lng": 30.525361
+    },
+    "connections": [
+      10,
+      12,
+      26
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Arsenalna",
+    "coord": {
+      "lat": 50.443017,
+      "lng": 30.547733
+    },
+    "connections": [
+      11,
+      13
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Dnipro",
+    "coord": {
+      "lat": 50.441228,
+      "lng": 30.559337
+    },
+    "connections": [
+      12,
+      14
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Hidropark",
+    "coord": {
+      "lat": 50.445971,
+      "lng": 30.576876
+    },
+    "connections": [
+      13,
+      15
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Livoberezhna",
+    "coord": {
+      "lat": 50.451937,
+      "lng": 30.598073
+    },
+    "connections": [
+      14,
+      16
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Darnytsia",
+    "coord": {
+      "lat": 50.45574509999999,
+      "lng": 30.6118985
+    },
+    "connections": [
+      15,
+      17
+    ]
+  },
+  {
+    "id": 17,
+    "name": "Chernihivska",
+    "coord": {
+      "lat": 50.459967,
+      "lng": 30.63026
+    },
+    "connections": [
+      16,
+      18
+    ]
+  },
+  {
+    "id": 18,
+    "name": "Lisova",
+    "coord": {
+      "lat": 50.4648,
+      "lng": 30.6456
+    },
+    "connections": [
+      17
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Heroiv Dnipra",
+    "coord": {
+      "lat": 50.52273899999999,
+      "lng": 30.498971
+    },
+    "connections": [
+      20
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Minska",
+    "coord": {
+      "lat": 50.51224200000001,
+      "lng": 30.498551
+    },
+    "connections": [
+      19,
+      21
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Obolon",
+    "coord": {
+      "lat": 50.501466,
+      "lng": 30.49822799999999
+    },
+    "connections": [
+      20,
+      22
+    ]
+  },
+  {
+    "id": 22,
+    "name": "Petrivka",
+    "coord": {
+      "lat": 50.486078,
+      "lng": 30.497851
+    },
+    "connections": [
+      21,
+      23
+    ]
+  },
+  {
+    "id": 23,
+    "name": "Tarasa Shevchenka",
+    "coord": {
+      "lat": 50.474155,
+      "lng": 30.503491
+    },
+    "connections": [
+      22,
+      24
+    ]
+  },
+  {
+    "id": 24,
+    "name": "Kontraktova Ploshcha",
+    "coord": {
+      "lat": 50.46605,
+      "lng": 30.514996
+    },
+    "connections": [
+      23,
+      25
+    ]
+  },
+  {
+    "id": 25,
+    "name": "Poshtova Ploshcha",
+    "coord": {
+      "lat": 50.4589633,
+      "lng": 30.5247585
+    },
+    "connections": [
+      24,
+      26
+    ]
+  },
+  {
+    "id": 26,
+    "name": "Maidan Nezalezhnosti",
+    "coord": {
+      "lat": 50.450878,
+      "lng": 30.5237438
+    },
+    "connections": [
+      25,
+      27,
+      11
+    ]
+  },
+  {
+    "id": 27,
+    "name": "Ploshcha Lva Tolstoho",
+    "coord": {
+      "lat": 50.440075,
+      "lng": 30.518021
+    },
+    "connections": [
+      26,
+      28,
+      41
+    ]
+  },
+  {
+    "id": 28,
+    "name": "Olimpiiska",
+    "coord": {
+      "lat": 50.4321543,
+      "lng": 30.516367
+    },
+    "connections": [
+      27,
+      29
+    ]
+  },
+  {
+    "id": 29,
+    "name": "Palats \"Ukrayina\"",
+    "coord": {
+      "lat": 50.421186,
+      "lng": 30.520611
+    },
+    "connections": [
+      28,
+      30
+    ]
+  },
+  {
+    "id": 30,
+    "name": "Lybidska",
+    "coord": {
+      "lat": 50.414438,
+      "lng": 30.524882
+    },
+    "connections": [
+      29,
+      31
+    ]
+  },
+  {
+    "id": 31,
+    "name": "Demiivska",
+    "coord": {
+      "lat": 50.40247,
+      "lng": 30.515092
+    },
+    "connections": [
+      30,
+      32
+    ]
+  },
+  {
+    "id": 32,
+    "name": "Holosiivska",
+    "coord": {
+      "lat": 50.39746,
+      "lng": 30.508361
+    },
+    "connections": [
+      31,
+      33
+    ]
+  },
+  {
+    "id": 33,
+    "name": "Vasylkivska",
+    "coord": {
+      "lat": 50.393251,
+      "lng": 30.48767
+    },
+    "connections": [
+      32,
+      34
+    ]
+  },
+  {
+    "id": 34,
+    "name": "Vystavkovyi Tsentr",
+    "coord": {
+      "lat": 50.382412,
+      "lng": 30.477655
+    },
+    "connections": [
+      33,
+      35
+    ]
+  },
+  {
+    "id": 35,
+    "name": "Ipodrom",
+    "coord": {
+      "lat": 50.37667399999999,
+      "lng": 30.46898699999999
+    },
+    "connections": [
+      34,
+      36
+    ]
+  },
+  {
+    "id": 36,
+    "name": "Teremky",
+    "coord": {
+      "lat": 50.3671714,
+      "lng": 30.4544127
+    },
+    "connections": [
+      35
+    ]
+  },
+  {
+    "id": 37,
+    "name": "Syrets",
+    "coord": {
+      "lat": 50.476218,
+      "lng": 30.430678
+    },
+    "connections": [
+      38
+    ]
+  },
+  {
+    "id": 38,
+    "name": "Dorohozhychi",
+    "coord": {
+      "lat": 50.473119,
+      "lng": 30.452247
+    },
+    "connections": [
+      37,
+      39
+    ]
+  },
+  {
+    "id": 39,
+    "name": "Lukianivska",
+    "coord": {
+      "lat": 50.46117899999999,
+      "lng": 30.483671
+    },
+    "connections": [
+      38,
+      40
+    ]
+  },
+  {
+    "id": 40,
+    "name": "Zoloti Vorota",
+    "coord": {
+      "lat": 50.44615899999999,
+      "lng": 30.515426
+    },
+    "connections": [
+      39,
+      41,
+      10
+    ]
+  },
+  {
+    "id": 41,
+    "name": "Palats Sportu",
+    "coord": {
+      "lat": 50.439647,
+      "lng": 30.519533
+    },
+    "connections": [
+      40,
+      42,
+      27
+    ]
+  },
+  {
+    "id": 42,
+    "name": "Klovska",
+    "coord": {
+      "lat": 50.435902,
+      "lng": 30.533423
+    },
+    "connections": [
+      41,
+      43
+    ]
+  },
+  {
+    "id": 43,
+    "name": "Pecherska",
+    "coord": {
+      "lat": 50.426553,
+      "lng": 30.54012
+    },
+    "connections": [
+      42,
+      44
+    ]
+  },
+  {
+    "id": 44,
+    "name": "Druzhby Narodiv",
+    "coord": {
+      "lat": 50.416841,
+      "lng": 30.546918
+    },
+    "connections": [
+      43,
+      45
+    ]
+  },
+  {
+    "id": 45,
+    "name": "Vydubychi",
+    "coord": {
+      "lat": 50.402102,
+      "lng": 30.56016
+    },
+    "connections": [
+      44,
+      46
+    ]
+  },
+  {
+    "id": 46,
+    "name": "Slavutych",
+    "coord": {
+      "lat": 50.394264,
+      "lng": 30.604859
+    },
+    "connections": [
+      45,
+      47
+    ]
+  },
+  {
+    "id": 47,
+    "name": "Osokorky",
+    "coord": {
+      "lat": 50.395248,
+      "lng": 30.616231
+    },
+    "connections": [
+      46,
+      48
+    ]
+  },
+  {
+    "id": 48,
+    "name": "Pozniaky",
+    "coord": {
+      "lat": 50.397944,
+      "lng": 30.634579
+    },
+    "connections": [
+      47,
+      49
+    ]
+  },
+  {
+    "id": 49,
+    "name": "Kharkivska",
+    "coord": {
+      "lat": 50.3999356,
+      "lng": 30.6506377
+    },
+    "connections": [
+      48,
+      50
+    ]
+  },
+  {
+    "id": 50,
+    "name": "Vyrlytsia",
+    "coord": {
+      "lat": 50.40312,
+      "lng": 30.666891
+    },
+    "connections": [
+      49,
+      51
+    ]
+  },
+  {
+    "id": 51,
+    "name": "Boryspilska",
+    "coord": {
+      "lat": 50.403375,
+      "lng": 30.684195
+    },
+    "connections": [
+      50,
+      52
+    ]
+  },
+  {
+    "id": 52,
+    "name": "Chervony Khutir",
+    "coord": {
+      "lat": 50.409473,
+      "lng": 30.696203
+    },
+    "connections": [
+      51
+    ]
+  }
+]
