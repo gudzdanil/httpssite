@@ -1,7 +1,9 @@
 map {
   height: 25%;
   width: 100%;
+  bottom: 0;
   display: block;
+  position: absolute;
 }
 map > div {
   height: 100%;
