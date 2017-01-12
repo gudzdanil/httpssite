@@ -1,0 +1,15 @@
+message {
+  display: flex;
+  background: #ebf4ff;
+  padding: 10px;
+  border-top: 1px solid rgba(0,0,0,0.4);
+
+  .message-username {
+    width: 150px;
+    border-right: 1px solid rgba(17, 85, 111, 0.3);
+    margin-right: 10px;
+  }
+  p {
+    margin-bottom: 0;
+  }
+}
