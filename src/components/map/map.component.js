@@ -4,7 +4,7 @@ import controller from './map.controller';
 export default {
     bindings: {
         userCoords: '<',
-        lastUserCoord: '<'
+        lastUserId: '<'
     },
     template: require('./map.html'),
     controller: controller

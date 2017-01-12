@@ -95,16 +95,17 @@ webpackJsonp([0],[
 	        this._http = $http;
 	        this._q = $q;
 	        this._GeoService = GeoService;
-	        this._channel = 'chatroom2';
+	        this._channel = 'chatroom3';
 	        this.username = '';
 	
 	        var stored = $window.localStorage.getItem('username');
-	        this._usernamePromise = stored ? $q.resolve(stored) : this._http.get('https://uinames.com/api/').then(function (res) {
+	        this._usernamePromise = stored ? $q.resolve(this.username = stored) : this._http.get('https://uinames.com/api/').then(function (res) {
 	            _this.username = res.data.name + ' ' + res.data.surname;
 	            $window.localStorage.setItem('username', _this.username);
 	            return _this.username;
 	        }, function () {
-	            return $q.resolve('Anonymous');
+	            _this.username = 'Anonymous';
+	            return $q.resolve(_this.username);
 	        });
 	
 	        this._geoPromise = this._GeoService.getLatLng();
@@ -118,13 +119,13 @@ webpackJsonp([0],[
 	            this._q.all([this._usernamePromise, this._geoPromise]).then(function (responses) {
 	                _this2._pubnub = new PubNub({
 	                    subscribeKey: "sub-c-e622b4f8-d7d4-11e6-baae-0619f8945a4f",
-	                    publishKey: "pub-c-f9081d4e-f107-4d19-85f7-b453dbc9b13e"
+	                    publishKey: "pub-c-f9081d4e-f107-4d19-85f7-b453dbc9b13e",
+	                    uuid: responses[0]
 	                });
 	                _this2._pubnub.addListener(_this2._getListener());
 	                _this2._pubnub.subscribe({
 	                    channels: [_this2._channel],
-	                    withPresence: true,
-	                    uuid: responses[0]
+	                    withPresence: true
 	                });
 	                _this2._pubnub.setState({
 	                    channels: [_this2._channel],
@@ -285,13 +286,15 @@ webpackJsonp([0],[
 /* 9 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -306,25 +309,62 @@ webpackJsonp([0],[
 	        this._scope = $scope;
 	
 	        this.messages = [];
+	        this.users = [];
 	    }
 	
 	    _createClass(AppController, [{
-	        key: "$onInit",
+	        key: '$onInit',
 	        value: function $onInit() {
 	            var _this = this;
 	
-	            this._PubNub.getHistory().then(angular.bind(this, function (messages) {
-	                this.messages = messages.map(function (el) {
+	            this._PubNub.getHistory().then(function (messages) {
+	                _this.messages = messages.map(function (el) {
 	                    return el.entry;
 	                }).reverse();
 	
-	                this._PubNub.getOnlineUsers().then(angular.bind(this, function (response) {}));
-	            }));
+	                _this._PubNub.getOnlineUsers().then(function (response) {
+	                    _this.users = [];
+	                    for (var i in response.channels) {
+	                        if (response.channels.hasOwnProperty(i)) {
+	                            var _users;
+	
+	                            (_users = _this.users).push.apply(_users, _toConsumableArray(response.channels[i].occupants));
+	                        }
+	                    }
+	                });
+	            });
 	            this._scope.$on('message', function (e, m) {
 	                _this._scope.$apply(function () {
 	                    _this.messages.unshift(m);
 	                });
 	            });
+	            this._scope.$on('user', function (e, m) {
+	                if (m.action === 'state-change') {
+	                    if (!_this.users.length) {
+	                        return;
+	                    }
+	                    _this._scope.$apply(function () {
+	                        var _users2;
+	
+	                        _this.users.filter(function (u) {
+	                            return u.uuid === m.uuid;
+	                        })[0].state = m.state;
+	                        var arr = _this.users;
+	                        _this.users = [];
+	                        (_users2 = _this.users).push.apply(_users2, _toConsumableArray(arr));
+	                    });
+	                }
+	            });
+	        }
+	    }, {
+	        key: 'getUsersCoords',
+	        value: function getUsersCoords() {
+	            return this.users;
+	        }
+	    }, {
+	        key: 'getLastUserId',
+	        value: function getLastUserId() {
+	            return this.messages.length ? this.messages[0].user : null;
 	        }
 	    }]);
 	
@@ -685,7 +725,7 @@ webpackJsonp([0],[
 /* 14 */
 /***/ function(module, exports) {
 
-	module.exports = "<map user-coords=\"$ctrl.getUsersCoords()\" last-user-coord=\"$ctrl.getLastUserCoords()\"></map>\n<div id=\"message-list\">\n    <message ng-repeat=\"message in $ctrl.messages track by $index\" message=\"message\"></message>\n</div>\n<send-form></send-form>\n"
+	module.exports = "<map user-coords=\"$ctrl.getUsersCoords()\" last-user-id=\"$ctrl.getLastUserId()\"></map>\n<div id=\"message-list\">\n    <message ng-repeat=\"message in $ctrl.messages track by $index\" message=\"message\"></message>\n</div>\n<send-form></send-form>\n"
 
 /***/ },
 /* 15 */
@@ -878,7 +918,7 @@ webpackJsonp([0],[
 	exports.default = {
 	    bindings: {
 	        userCoords: '<',
-	        lastUserCoord: '<'
+	        lastUserId: '<'
 	    },
 	    template: __webpack_require__(28),
 	    controller: _map2.default
@@ -886,9 +926,9 @@ webpackJsonp([0],[
 
 /***/ },
 /* 25 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -896,11 +936,17 @@ webpackJsonp([0],[
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
+	var _lodash = __webpack_require__(5);
+	
+	var _lodash2 = _interopRequireDefault(_lodash);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var MapController = function () {
-	    MapController.$inject = ["$element", "GeoService"];
-	    function MapController($element, GeoService) {
+	    MapController.$inject = ["$element", "GeoService", "$scope"];
+	    function MapController($element, GeoService, $scope) {
 	        "ngInject";
 	
 	        _classCallCheck(this, MapController);
@@ -908,15 +954,97 @@ webpackJsonp([0],[
 	        this._GeoService = GeoService;
 	        this._$element = $element;
 	        this._markers = [];
+	        this._scope = $scope;
+	        this.last = null;
 	    }
 	
 	    _createClass(MapController, [{
-	        key: "$onInit",
+	        key: '$onChanges',
+	        value: function $onChanges(changesObj) {
+	            var _this = this;
+	
+	            if (changesObj.userCoords) {
+	                this.clearMarkers();
+	                if (changesObj.userCoords.currentValue && changesObj.userCoords.currentValue.length) {
+	                    this.initMarkers();
+	                }
+	            }
+	            if (changesObj.lastUserId) {
+	                this.resetMarkerIcons();
+	                if (changesObj.lastUserId.currentValue) {
+	                    this._markers.filter(function (m) {
+	                        if (m.uuid === _this.lastUserId) {
+	                            m.marker.setIcon(_this.getIcon());
+	                        }
+	                    });
+	                }
+	            }
+	        }
+	    }, {
+	        key: 'resetMarkerIcons',
+	        value: function resetMarkerIcons() {
+	            for (var i = 0; i < this._markers.length; i++) {
+	                this._markers.marker.setIcon(this.getDefaultIcon());
+	            }
+	        }
+	    }, {
+	        key: 'getDefaultIcon',
+	        value: function getDefaultIcon() {
+	            return {
+	                scaledSize: new google.maps.Size(20, 25),
+	                size: new google.maps.Size(20, 25),
+	                origin: new google.maps.Point(0, 0),
+	                anchor: new google.maps.Point(10, 25),
+	                url: 'https://www.fuzu.com/assets/fa-map-marker-black-076c91ebe04439cf1dea1e3d41cdcf8a9e74d5dcc5682578cd6966ee977a0e75.png'
+	            };
+	        }
+	    }, {
+	        key: 'getIcon',
+	        value: function getIcon() {
+	            return {
+	                scaledSize: new google.maps.Size(20, 25),
+	                size: new google.maps.Size(20, 25),
+	                origin: new google.maps.Point(0, 0),
+	                anchor: new google.maps.Point(10, 25),
+	                url: 'http://promujer.org/content/themes/storyware/resources/assets/build/svg/map-marker.svg'
+	            };
+	        }
+	    }, {
+	        key: '$onInit',
 	        value: function $onInit() {
 	            this._map = new google.maps.Map(this._$element[0].children[0], {
-	                center: { lat: -34.397, lng: 150.644 },
-	                zoom: 6
+	                center: { lat: 0, lng: 0 },
+	                zoom: 1
 	            });
+	            // setTimeout(() => {
+	            //     let marker = new google.maps.Marker({
+	            //         position: {lat: 0, lng: 0},//_.cloneDeep(this.userCoords[i].state),
+	            //         map: this._map
+	            //     });
+	            // }, 2000);
+	        }
+	    }, {
+	        key: 'clearMarkers',
+	        value: function clearMarkers() {
+	            for (var i = 0; i < this._markers; i++) {
+	                this._markers.marker.setMap(null);
+	            }
+	            this._markers = [];
+	        }
+	    }, {
+	        key: 'initMarkers',
+	        value: function initMarkers() {
+	            for (var i = 0; i < this.userCoords.length; i++) {
+	                var marker = new google.maps.Marker({
+	                    position: _lodash2.default.cloneDeep(this.userCoords[i].state),
+	                    map: this._map,
+	                    icon: this.userCoords[i].uuid === this.lastUserId ? this.getIcon() : this.getDefaultIcon()
+	                });
+	                this._markers.push({
+	                    marker: marker,
+	                    uuid: this.userCoords[i].uuid
+	                });
+	            }
 	        }
 	    }]);
 	

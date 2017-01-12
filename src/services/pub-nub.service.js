@@ -8,16 +8,17 @@ class PubNubService {
         this._http = $http;
         this._q = $q;
         this._GeoService = GeoService;
-        this._channel = 'chatroom2';
+        this._channel = 'chatroom3';
         this.username = '';
 
         let stored = $window.localStorage.getItem('username');
-        this._usernamePromise = stored ? $q.resolve(stored) : this._http.get('https://uinames.com/api/').then((res) => {
+        this._usernamePromise = stored ? $q.resolve(this.username = stored) : this._http.get('https://uinames.com/api/').then((res) => {
             this.username = res.data.name + ' ' + res.data.surname;
             $window.localStorage.setItem('username', this.username);
             return this.username;
         }, () => {
-            return $q.resolve('Anonymous');
+            this.username = 'Anonymous';
+            return $q.resolve(this.username);
         });
 
         this._geoPromise = this._GeoService.getLatLng();
@@ -27,13 +28,13 @@ class PubNubService {
         this._q.all([this._usernamePromise, this._geoPromise]).then((responses) => {
             this._pubnub = new PubNub({
                 subscribeKey: "sub-c-e622b4f8-d7d4-11e6-baae-0619f8945a4f",
-                publishKey: "pub-c-f9081d4e-f107-4d19-85f7-b453dbc9b13e"
+                publishKey: "pub-c-f9081d4e-f107-4d19-85f7-b453dbc9b13e",
+                uuid: responses[0]
             });
             this._pubnub.addListener(this._getListener());
             this._pubnub.subscribe({
                 channels: [this._channel],
-                withPresence: true,
-                uuid: responses[0]
+                withPresence: true
             });
             this._pubnub.setState({
                 channels: [this._channel],
