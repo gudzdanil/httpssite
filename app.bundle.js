@@ -79,6 +79,8 @@ webpackJsonp([0],[
 	    function PubNubService($rootScope, $q, GeoService, $http) {
 	        "ngInject";
 	
+	        var _this = this;
+	
 	        _classCallCheck(this, PubNubService);
 	
 	        this._rootScope = $rootScope;
@@ -87,63 +89,72 @@ webpackJsonp([0],[
 	        this._GeoService = GeoService;
 	        this._channel = 'chatroom';
 	        this.username = '';
+	
+	        this._usernamePromise = this._http.get('https://uinames.com/api/').then(function (res) {
+	            _this.username = res.data.name + ' ' + res.data.surname;
+	        });
+	
+	        this._geoPromise = this._GeoService.getLatLng();
 	    }
 	
 	    _createClass(PubNubService, [{
 	        key: 'init',
 	        value: function init() {
-	            var _this = this;
+	            var _this2 = this;
 	
-	            this._pubnub = new PubNub({
-	                subscribeKey: "sub-c-e622b4f8-d7d4-11e6-baae-0619f8945a4f",
-	                publishKey: "pub-c-f9081d4e-f107-4d19-85f7-b453dbc9b13e"
-	            });
-	            this._http.get('https://uinames.com/api/').then(function (res) {
-	                _this.username = res.data.name + ' ' + res.data.surname;
-	                _this._pubnub.addListener(_this._getListener());
-	                _this._pubnub.subscribe({
-	                    channels: [_this._channel],
-	                    withPresence: true,
-	                    uuid: _this.username
+	            this._q.all([this._usernamePromise, this._geoPromise]).then(function (responses) {
+	                _this2._pubnub = new PubNub({
+	                    subscribeKey: "sub-c-e622b4f8-d7d4-11e6-baae-0619f8945a4f",
+	                    publishKey: "pub-c-f9081d4e-f107-4d19-85f7-b453dbc9b13e"
 	                });
-	                _this._GeoService.getLatLng().then(function (coords) {
-	                    _this._pubnub.setState({
-	                        channel: _this._channel,
-	                        state: coords
-	                    });
+	                _this2._pubnub.addListener(_this2._getListener());
+	                _this2._pubnub.subscribe({
+	                    channels: [_this2._channel],
+	                    withPresence: true,
+	                    uuid: responses[0]
+	                });
+	                _this2._pubnub.setState({
+	                    channel: _this2._channel,
+	                    state: responses[1]
+	                }, function (status, response) {
+	                    console.log('set status res', arguments);
 	                });
 	            });
 	        }
 	    }, {
 	        key: 'getHistory',
 	        value: function getHistory() {
-	            var _this2 = this;
+	            var _this3 = this;
 	
-	            return this._q(function (res, rej) {
-	                _this2._pubnub.history({
-	                    channel: _this2._channel
-	                }, function (status, response) {
-	                    console.log('history', status, response);
-	                    if (status.statusCode !== 200) {
-	                        rej(status);
-	                    }
-	                    res(response.messages);
+	            return this._q.all([this._usernamePromise, this._geoPromise]).then(function (responses) {
+	                return _this3._q(function (res, rej) {
+	                    _this3._pubnub.history({
+	                        channel: _this3._channel
+	                    }, function (status, response) {
+	                        console.log('history', status, response);
+	                        if (status.statusCode !== 200) {
+	                            rej(status);
+	                        }
+	                        res(response.messages);
+	                    });
 	                });
 	            });
 	        }
 	    }, {
 	        key: 'getOnlineUsers',
 	        value: function getOnlineUsers() {
-	            var _this3 = this;
+	            var _this4 = this;
 	
-	            return this._q(function (res) {
-	                _this3._pubnub.hereNow({
-	                    includeUUIDs: true,
-	                    includeState: true,
-	                    channel: _this3._channel
-	                }, function (status, response) {
-	                    console.log('here now', status, response);
-	                    res(response);
+	            return this._q.all([this._usernamePromise, this._geoPromise]).then(function (responses) {
+	                return _this4._q(function (res) {
+	                    _this4._pubnub.hereNow({
+	                        includeUUIDs: true,
+	                        includeState: true,
+	                        channels: [_this4._channel]
+	                    }, function (status, response) {
+	                        console.log('here now', status, response);
+	                        res(response);
+	                    });
 	                });
 	            });
 	        }

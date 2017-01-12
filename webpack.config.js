@@ -26,6 +26,12 @@ var webpackConfig = {
         new HtmlWebpackPlugin({
             filename: path.join(distPath, "index.html"),
             template: path.join(srcPath, "index.html")
+        }),
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery",
+            _: "lodash",
+            lodash: "lodash"
         })
     ],
     module: {
