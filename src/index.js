@@ -1,3 +1,5 @@
+require('./main.scss');
+
 import angular from 'angular';
 
 import run from './run';

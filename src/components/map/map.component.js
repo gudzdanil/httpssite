@@ -1,3 +1,4 @@
+require('./map.scss');
 import controller from './map.controller';
 
 export default {

@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 class PubNubService {
     constructor($rootScope, $q, GeoService, $http) {
         "ngInject";
@@ -10,7 +12,7 @@ class PubNubService {
         this.username = '';
 
         this._usernamePromise = this._http.get('https://uinames.com/api/').then((res) => {
-            this.username = res.data.name + ' ' + res.data.surname;
+            return this.username = res.data.name + ' ' + res.data.surname;
         });
 
         this._geoPromise = this._GeoService.getLatLng();
@@ -77,7 +79,7 @@ class PubNubService {
     publish(message) {
         this._pubnub.publish(
             {
-                message: message,
+                message: _.assign({user: this.username}, message),
                 channel: this._channel
             },
             function (status, response) {

@@ -1,3 +1,5 @@
+require('./app.scss');
+
 import controller from './app.controller';
 
 export default {

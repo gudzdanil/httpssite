@@ -1,3 +1,5 @@
+require('./message.scss');
+
 export default {
     bindings: {
         message: '<'

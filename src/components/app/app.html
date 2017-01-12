@@ -1,10 +1,5 @@
-<div class="row">
-    <div class="col-xs-8">
-        <send-form></send-form>
-        <hr/>
-        <message ng-repeat="message in $ctrl.messages track by $index" message="message"></message>
-    </div>
-    <div class="col-xs-4">
-        <map user-coords="$ctrl.getUsersCoords()" last-user-coord="$ctrl.getLastUserCoords()"></map>
-    </div>
+<map user-coords="$ctrl.getUsersCoords()" last-user-coord="$ctrl.getLastUserCoords()"></map>
+<div id="message-list">
+    <message ng-repeat="message in $ctrl.messages track by $index" message="message"></message>
 </div>
+<send-form></send-form>
