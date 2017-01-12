@@ -1,0 +1,28 @@
+{
+  "extends": "eslint:recommended",
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "plugins": [
+  ],
+  "globals": {
+    "PubNub": true,
+    "angular": true,
+    "google": true
+  },
+  "rules": {
+    "no-unused-vars": 1,
+    "no-extra-semi": 1,
+    "no-debugger": 0,
+    "no-console": 0,
+    "new-cap": 0,
+    "strict": 1,
+    "no-underscore-dangle": 0,
+    "no-use-before-define": 0,
+    "eol-last": 0,
+    "quotes": [0, "single"],
+    "jsx-quotes": [1, "prefer-single"]
+  }
+}

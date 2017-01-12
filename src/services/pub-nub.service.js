@@ -1,0 +1,100 @@
+class PubNubService {
+    constructor($rootScope, $q, GeoService, $http) {
+        "ngInject";
+
+        this._rootScope = $rootScope;
+        this._http = $http;
+        this._q = $q;
+        this._GeoService = GeoService;
+        this._channel = 'chatroom';
+        this.username = '';
+    }
+
+    init() {
+        this._pubnub = new PubNub({
+            subscribeKey: "sub-c-e622b4f8-d7d4-11e6-baae-0619f8945a4f",
+            publishKey: "pub-c-f9081d4e-f107-4d19-85f7-b453dbc9b13e"
+        });
+        this._http.get('https://uinames.com/api/').then((res) => {
+            this.username = res.data.name + ' ' + res.data.surname;
+            this._pubnub.addListener(this._getListener());
+            this._pubnub.subscribe({
+                channels: [this._channel],
+                withPresence: true,
+                uuid: this.username
+            });
+            this._GeoService.getLatLng().then((coords) => {
+                this._pubnub.setState({
+                    channel  : this._channel,
+                    state    : coords
+                });
+            });
+        });
+
+    }
+
+    getHistory() {
+        return this._q((res, rej) =>{
+            this._pubnub.history(
+                {
+                    channel: this._channel
+                },
+                function (status, response) {
+                    console.log('history', status, response);
+                    if (status.statusCode !== 200) {
+                        rej(status);
+                    }
+                    res(response.messages);
+                }
+            );
+        });
+    }
+
+    getOnlineUsers() {
+        return this._q((res) => {
+            this._pubnub.hereNow(
+                {
+                    includeUUIDs: true,
+                    includeState: true,
+                    channel: this._channel
+                },
+                function (status, response) {
+                    console.log('here now', status, response);
+                    res(response);
+                }
+            );
+        });
+    }
+
+    publish(message) {
+        this._pubnub.publish(
+            {
+                message: message,
+                channel: this._channel
+            },
+            function (status, response) {
+                // handle status, response
+                console.log('publish response', arguments);
+            }
+        );
+    }
+
+    _getListener() {
+        return this._listener || (this._listener = {
+            message: angular.bind(this, function (m) {
+                console.log('message', m);
+                this._rootScope.$broadcast('message', m.message);
+            }),
+            presence: angular.bind(this, function (p) {
+                console.log('user', p);
+                this._rootScope.$broadcast('user', p);
+            }),
+            status: angular.bind(this, function (s) {
+                console.log('status', s);
+                this._rootScope.$broadcast('status', s);
+            })
+        });
+    }
+}
+
+export default PubNubService;
