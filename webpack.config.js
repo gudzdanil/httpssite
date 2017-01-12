@@ -9,7 +9,7 @@ var pkg = require('./package.json');
 const TARGET = process.env.npm_lifecycle_event || 'dev';
 
 var rootPath = __dirname;
-var distPath = path.join(rootPath, 'dist');
+var distPath = path.join(rootPath);
 var srcPath = path.join(rootPath, "src");
 
 var webpackConfig = {
@@ -44,17 +44,21 @@ var webpackConfig = {
     }
 };
 
+webpackConfig.debug = true;
+webpackConfig.devtool = 'source-map';
+webpackConfig.plugins.push(
+    new webpack.optimize.CommonsChunkPlugin(
+        "vendor",
+        "vendor.bundle.js"
+    )
+);
+
 if (TARGET.indexOf('dev') == 0) {
-    webpackConfig.debug = true;
-    webpackConfig.devtool = 'source-map';
     webpackConfig.watch = true;
     webpackConfig.devServer = {
         contentBase: distPath,
         inline: true,
-        open: true,
-        historyApiFallback: {
-            index: 'index.html'
-        },
+        open: true
     };
     webpackConfig.module.preLoaders = [
         {
@@ -65,21 +69,15 @@ if (TARGET.indexOf('dev') == 0) {
             ]
         }
     ];
-    webpackConfig.plugins.push(
-        new webpack.optimize.CommonsChunkPlugin(
-            "vendor",
-            "vendor.bundle.js"
-        )
-    );
 }
 else if (TARGET === 'build') {
-    webpackConfig.devtool = false;
-    webpackConfig.debug = false;
-    webpackConfig.entry = webpackConfig.entry.app;
-    webpackConfig.output.filename = 'bundle.js';
-    webpackConfig.plugins.push(new CleanWebpackPlugin([distPath], {
-        root: path.resolve(distPath, '..')
-    }));
+    // webpackConfig.devtool = false;
+    // webpackConfig.debug = false;
+    // webpackConfig.entry = webpackConfig.entry.app;
+    // webpackConfig.output.filename = 'bundle.js';
+    // webpackConfig.plugins.push(new CleanWebpackPlugin([distPath], {
+    //     root: path.resolve(distPath, '..')
+    // }));
     // webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({minimize: true, comments: false, compress: {
     //     drop_console: true
     // }}));
