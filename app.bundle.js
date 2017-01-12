@@ -95,7 +95,7 @@ webpackJsonp([0],[
 	        this._http = $http;
 	        this._q = $q;
 	        this._GeoService = GeoService;
-	        this._channel = 'chatroom3';
+	        this._channel = 'chatroom5';
 	        this.username = '';
 	
 	        var stored = $window.localStorage.getItem('username');
