@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 class PubNubService {
-    constructor($rootScope, $q, GeoService, $http) {
+    constructor($rootScope, $q, GeoService, $http, $window) {
         "ngInject";
 
         this._rootScope = $rootScope;
@@ -11,8 +11,13 @@ class PubNubService {
         this._channel = 'chatroom';
         this.username = '';
 
-        this._usernamePromise = this._http.get('https://uinames.com/api/').then((res) => {
-            return this.username = res.data.name + ' ' + res.data.surname;
+        let stored = $window.localStorage.getItem('username');
+        this._usernamePromise = stored ? $q.resolve(stored) : this._http.get('https://uinames.com/api/').then((res) => {
+            this.username = res.data.name + ' ' + res.data.surname;
+            $window.localStorage.setItem('username', this.username);
+            return this.username;
+        }, () => {
+            return $q.resolve('Anonymous');
         });
 
         this._geoPromise = this._GeoService.getLatLng();
