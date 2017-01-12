@@ -8,7 +8,7 @@ class PubNubService {
         this._http = $http;
         this._q = $q;
         this._GeoService = GeoService;
-        this._channel = 'chatroom5';
+        this._channel = 'chatroom7';
         this.username = '';
 
         let stored = $window.localStorage.getItem('username');

@@ -34,11 +34,22 @@ class AppController {
                     return;
                 }
                 this._scope.$apply(() => {
-                    this.users.filter((u) => u.uuid === m.uuid)[0].state = m.state;
-                    let arr = this.users;
-                    this.users = [];
-                    this.users.push(...arr);
+                    let user  = this.users.filter((u) => u.uuid === m.uuid)[0];
+                    if(user) {user.state = m.state;}
+                    else {
+                        this.users.push({
+                            uuid: m.uuid,
+                            state: m.state
+                        });
+                    }
+                    this.users = [...this.users];
                 });
+            }
+            else if(m.action === 'join') {
+                let users = [...this.users];
+                if(!(this.users.filter((u) => u.uuid === m.uuid).length)) {
+                    users.unshift({uuid: m.uuid, state: m.state});
+                }
             }
         });
     }

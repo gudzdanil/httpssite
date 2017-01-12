@@ -95,7 +95,7 @@ webpackJsonp([0],[
 	        this._http = $http;
 	        this._q = $q;
 	        this._GeoService = GeoService;
-	        this._channel = 'chatroom5';
+	        this._channel = 'chatroom7';
 	        this.username = '';
 	
 	        var stored = $window.localStorage.getItem('username');
@@ -344,15 +344,26 @@ webpackJsonp([0],[
 	                        return;
 	                    }
 	                    _this._scope.$apply(function () {
-	                        var _users2;
-	
-	                        _this.users.filter(function (u) {
+	                        var user = _this.users.filter(function (u) {
 	                            return u.uuid === m.uuid;
-	                        })[0].state = m.state;
-	                        var arr = _this.users;
-	                        _this.users = [];
-	                        (_users2 = _this.users).push.apply(_users2, _toConsumableArray(arr));
+	                        })[0];
+	                        if (user) {
+	                            user.state = m.state;
+	                        } else {
+	                            _this.users.push({
+	                                uuid: m.uuid,
+	                                state: m.state
+	                            });
+	                        }
+	                        _this.users = [].concat(_toConsumableArray(_this.users));
 	                    });
+	                } else if (m.action === 'join') {
+	                    var users = [].concat(_toConsumableArray(_this.users));
+	                    if (!_this.users.filter(function (u) {
+	                        return u.uuid === m.uuid;
+	                    }).length) {
+	                        users.unshift({ uuid: m.uuid, state: m.state });
+	                    }
 	                }
 	            });
 	        }
@@ -408,7 +419,7 @@ webpackJsonp([0],[
 	
 	
 	// module
-	exports.push([module.id, "app {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  display: block; }\n\n#message-list {\n  height: 55%;\n  width: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: end;\n      -ms-flex-pack: end;\n          justify-content: flex-end; }\n", ""]);
+	exports.push([module.id, "app {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  display: block; }\n\n#message-list {\n  height: 63%;\n  width: 100%;\n  overflow-y: auto; }\n", ""]);
 	
 	// exports
 
@@ -725,7 +736,7 @@ webpackJsonp([0],[
 /* 14 */
 /***/ function(module, exports) {
 
-	module.exports = "<map user-coords=\"$ctrl.getUsersCoords()\" last-user-id=\"$ctrl.getLastUserId()\"></map>\n<div id=\"message-list\">\n    <message ng-repeat=\"message in $ctrl.messages track by $index\" message=\"message\"></message>\n</div>\n<send-form></send-form>\n"
+	module.exports = "<send-form></send-form>\n<div id=\"message-list\">\n    <message ng-repeat=\"message in $ctrl.messages track by $index\" message=\"message\"></message>\n</div>\n<map user-coords=\"$ctrl.getUsersCoords()\" last-user-id=\"$ctrl.getLastUserId()\"></map>\n"
 
 /***/ },
 /* 15 */
@@ -887,7 +898,7 @@ webpackJsonp([0],[
 	
 	
 	// module
-	exports.push([module.id, "send-form {\n  position: absolute;\n  height: 20%;\n  width: 100%;\n  bottom: 0;\n  display: block; }\n\ntextarea.form-control, button.btn {\n  height: 25vh; }\n", ""]);
+	exports.push([module.id, "send-form {\n  height: 12%;\n  width: 100%;\n  display: block; }\n\ntextarea.form-control, button.btn {\n  height: 12vh; }\n", ""]);
 	
 	// exports
 
@@ -974,7 +985,7 @@ webpackJsonp([0],[
 	                if (changesObj.lastUserId.currentValue) {
 	                    this._markers.filter(function (m) {
 	                        if (m.uuid === _this.lastUserId) {
-	                            m.marker.setIcon(_this.getIcon());
+	                            m.marker.setIcon(_this.getIcon().url);
 	                        }
 	                    });
 	                }
@@ -984,7 +995,7 @@ webpackJsonp([0],[
 	        key: 'resetMarkerIcons',
 	        value: function resetMarkerIcons() {
 	            for (var i = 0; i < this._markers.length; i++) {
-	                this._markers[i].marker.setIcon(this.getDefaultIcon());
+	                this._markers[i].marker.setIcon(this.getDefaultIcon().url);
 	            }
 	        }
 	    }, {
@@ -1002,10 +1013,10 @@ webpackJsonp([0],[
 	        key: 'getIcon',
 	        value: function getIcon() {
 	            return {
-	                scaledSize: new google.maps.Size(20, 25),
-	                size: new google.maps.Size(20, 25),
+	                scaledSize: new google.maps.Size(30, 25),
+	                size: new google.maps.Size(30, 25),
 	                origin: new google.maps.Point(0, 0),
-	                anchor: new google.maps.Point(10, 25),
+	                anchor: new google.maps.Point(15, 25),
 	                url: 'http://promujer.org/content/themes/storyware/resources/assets/build/svg/map-marker.svg'
 	            };
 	        }
@@ -1088,7 +1099,7 @@ webpackJsonp([0],[
 	
 	
 	// module
-	exports.push([module.id, "map {\n  height: 25%;\n  width: 100%;\n  display: block; }\n\nmap > div {\n  height: 100%; }\n", ""]);
+	exports.push([module.id, "map {\n  position: absolute;\n  bottom: 0;\n  height: 25%;\n  width: 100%;\n  display: block; }\n\nmap > div {\n  height: 100%; }\n", ""]);
 	
 	// exports
 

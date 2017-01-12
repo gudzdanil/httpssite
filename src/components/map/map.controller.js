@@ -23,7 +23,7 @@ class MapController {
             if (changesObj.lastUserId.currentValue) {
                 this._markers.filter(m => {
                     if (m.uuid === this.lastUserId) {
-                        m.marker.setIcon(this.getIcon());
+                        m.marker.setIcon(this.getIcon().url);
                     }
                 });
             }
@@ -32,7 +32,7 @@ class MapController {
 
     resetMarkerIcons() {
         for (let i = 0; i < this._markers.length; i++) {
-            this._markers[i].marker.setIcon(this.getDefaultIcon());
+            this._markers[i].marker.setIcon(this.getDefaultIcon().url);
         }
     }
 
@@ -48,10 +48,10 @@ class MapController {
 
     getIcon() {
         return {
-            scaledSize: new google.maps.Size(20, 25),
-            size: new google.maps.Size(20, 25),
+            scaledSize: new google.maps.Size(30, 25),
+            size: new google.maps.Size(30, 25),
             origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(10, 25),
+            anchor: new google.maps.Point(15, 25),
             url: 'http://promujer.org/content/themes/storyware/resources/assets/build/svg/map-marker.svg'
         };
     }
