@@ -984,7 +984,7 @@ webpackJsonp([0],[
 	        key: 'resetMarkerIcons',
 	        value: function resetMarkerIcons() {
 	            for (var i = 0; i < this._markers.length; i++) {
-	                this._markers.marker.setIcon(this.getDefaultIcon());
+	                this._markers[i].marker.setIcon(this.getDefaultIcon());
 	            }
 	        }
 	    }, {
