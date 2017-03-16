@@ -2,25 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>EyeSPY 360 test task</title>
+    <title>Gravitec subscription</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
 </head>
 <body >
 <script>
     var parent = window.opener || window.parent;
+    var parentUrl = 'http://gudz.me';
     if(window === parent) {
         new Error('This window should be opened as an iframe only');
     }
     if (window.Notification.permission === "default") {
         window.Notification.requestPermission(function(permission) {
-            console.log(permission);
+            if(permission == 'default') {
+                parent.postMessage({
+                    'subscribed': permission
+                }, parentUrl);
+            }
         });
     }
+    else {
+        parent.postMessage({
+            'subscribed': window.Notification.permission
+        }, parentUrl);
+    }
 </script>
-<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-VKtkVP5W2zJ8qQHWvCb9SmNVaPxcy5M"></script>-->
-<!--<script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.3.3.min.js"></script>-->
-<!--<script type="text/javascript" src="vendor.bundle.js"></script><script type="text/javascript" src="app.bundle.js"></script>-->
 </body>
 </html>
